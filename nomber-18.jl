@@ -8,4 +8,4 @@ function move_until_border_recursive!(r::Robot, side::HorizonSide)
     end
 end
 
-№ move_until_border_recursive!(r, side) - двигаться до границы рекурсивно 
+# move_until_border_recursive!(r, side) - двигаться до границы рекурсивно 
