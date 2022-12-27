@@ -1,16 +1,32 @@
-arr = Array{Int64}(undef, 12)
-length1 = length(arr)
-println(length1)
-for i in 1:length1
-    arr[i] = rand(1:5)
-end
-function recursive_sum!(x::Array{Int64}, len)
-    if len == 0
-        return 0
+using HorizonSideRobots 
+
+# №20 Написать рекурсивную функцию, перемещающую робота в соседнюю клеnку в заданном направлении, при этом на пути робота может находиться изолированная прямолинейная перегородка конечной длины.
+function get_on_through_rec!(r::Robot, side::HorizonSide, n_steps::Int = 0)
+    if isborder(r, side)
+        move!(r, next_side(side))
+        n_steps += 1
+        get_on_through_rec!(r, side, n_steps)
+    else
+        move!(r, side)
+        along!(r, inverse_side(next_side(side)), n_steps)
     end
-    return x[len] + recursive_sum!(x, len - 1)
 end
-for i in 1:length1
-    println(arr[i], " ")
+
+function next_side(side::HorizonSide)::HorizonSide
+    return HorizonSide((Int(side) + 1) % 4)
 end
-println(recursive_sum!(arr, length1))
+
+function along!(robot, side, num_steps)
+    n_steps = 0
+    while !isborder(robot, side) && n_steps < num_steps
+        move!(robot, side)
+        n_steps += 1
+    end
+end
+
+function inverse_side(side::HorizonSide)::HorizonSide
+    inv_side = HorizonSide((Int(side) + 2) % 4)
+    return inv_side
+end
+ 
+# get_on_through_rec-пройти через 
